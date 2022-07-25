@@ -1,6 +1,6 @@
 {
   "name": "fugue-jupyter",
-  "version": "0.1.2",
+  "version": "0.1.5",
   "description": "Jupyterlab Extension for Fugue",
   "keywords": [
     "jupyter",
