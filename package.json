@@ -1,20 +1,20 @@
 {
   "name": "fugue-jupyter",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Jupyterlab Extension for Fugue",
   "keywords": [
     "jupyter",
     "jupyterlab",
     "jupyterlab-extension"
   ],
-  "homepage": "https://github.com/fugue-project/fugue",
+  "homepage": "https://github.com/fugue-project/fugue-jupyter",
   "bugs": {
-    "url": "https://github.com/goodwanghan/fugue-jupyter/issues"
+    "url": "https://github.com/fugue-project/fugue-jupyter/issues"
   },
   "license": "BSD-3-Clause",
   "author": {
-    "name": "Han Wang",
-    "email": "goodwanghan@gmail.com"
+    "name": "Kevin Kho",
+    "email": "kdykho@gmail.com"
   },
   "files": [
     "lib/**/*.{d.ts,eot,gif,html,jpg,js,js.map,json,png,svg,woff2,ttf}",
@@ -25,7 +25,7 @@
   "style": "style/index.css",
   "repository": {
     "type": "git",
-    "url": "https://github.com/goodwanghan/fugue-jupyter.git"
+    "url": "https://github.com/fugue-project/fugue-jupyter.git"
   },
   "scripts": {
     "build": "jlpm build:lib && jlpm build:labextension:dev",
