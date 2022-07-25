@@ -1,0 +1,26 @@
+# test requirements
+pre-commit
+mypy
+flake8
+autopep8
+black
+pylint
+pytest
+pytest-cov
+pytest-mock
+sphinx
+sphinx-autodoc-typehints
+sphinx-rtd-theme
+furo
+
+# publish to pypi
+build
+wheel
+twine
+
+jupyterlab
+jupyter-packaging
+jupyterlab-lsp
+cookiecutter
+
+check-manifest
