@@ -3,13 +3,19 @@ import { Mode } from 'codemirror';
 import { ICodeMirror } from '@jupyterlab/codemirror';
 
 function cell_magic(language: string) {
-  return `%%${language}`;
+  return `%%${language}.*`;
 }
 function start(language: string) {
   return `--start-${language}`;
 }
 function end(language: string) {
   return `--end-${language}`;
+}
+function fsql_start() {
+  return `fsql[\\s\\S]*\\([\\s\\S]*\\"\\"\\"`;
+}
+function fsql_end() {
+  return `\\"\\"\\"`;
 }
 
 const BEGIN = '(?:^|\n)';
@@ -26,6 +32,12 @@ export function sqlCodeMirrorModesFor(
       // the marker as part of the SQL statement
       // it is thus syntax highlighted as a comment
       parseDelimiters: true,
+      mode: sqlMode
+    },
+    {
+      open: (RegExp(`${fsql_start()}`) as unknown) as string,
+      close: (RegExp(`${fsql_end()}`) as unknown) as string,
+      parseDelimiters: false,
       mode: sqlMode
     },
     {
@@ -53,6 +65,16 @@ export function markerExtractor(language: string): RegExpForeignCodeExtractor {
   return new RegExpForeignCodeExtractor({
     language: language,
     pattern: `${start(language)}.*?\n([^]*?)${end(language)}`,
+    foreign_capture_groups: [1],
+    is_standalone: true,
+    file_extension: language
+  });
+}
+
+export function fsqlBlockExtractor(language: string): RegExpForeignCodeExtractor {
+  return new RegExpForeignCodeExtractor({
+    language: language,
+    pattern: `${fsql_start()}.*?\n([^]*?)${fsql_end()}`,
     foreign_capture_groups: [1],
     is_standalone: true,
     file_extension: language
