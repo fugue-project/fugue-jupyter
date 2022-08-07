@@ -10,6 +10,7 @@ import { IEditorTracker } from '@jupyterlab/fileeditor';
 import {
   cellMagicExtractor,
   markerExtractor,
+  fsqlBlockExtractor,
   sqlCodeMirrorModesFor,
   registerCodeMirrorFor
 } from './utils';
@@ -126,6 +127,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
     // and into a virtual document which is then passed to the sql-language-server
     // for code completion evaluation
     lspExtractorsMgr.register(markerExtractor('fsql'), 'python');
+    lspExtractorsMgr.register(fsqlBlockExtractor('fsql'), 'python');
     lspExtractorsMgr.register(cellMagicExtractor('fsql'), 'python');
     console.log('fugue-jupyter LSP extractors registered');
   }
