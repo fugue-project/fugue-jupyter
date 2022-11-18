@@ -1,5 +1,9 @@
 # Release Notes
 
+## 0.1.7
+
+* The last version supporting Fugue < 0.8
+
 ## 0.1.1
 
 * Moved `fugue_notebook` features to this package
