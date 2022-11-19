@@ -2,6 +2,7 @@
 fugue_jupyter setup
 """
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -33,16 +34,25 @@ data_files_spec = [
 
 long_description = (HERE / "README.md").read_text()
 
-version = (
-    pkg_json["version"]
-    .replace("-alpha.", "a")
-    .replace("-beta.", "b")
-    .replace("-rc.", "rc")
-)
+
+def get_version() -> str:
+    version = (
+        pkg_json["version"]
+        .replace("-alpha.", "a")
+        .replace("-beta.", "b")
+        .replace("-rc.", "rc")
+    )
+    tag = os.environ.get("RELEASE_TAG", "")
+    if "dev" in tag.split(".")[-1]:
+        return tag
+    if tag != "":
+        assert tag == version, "release tag and version mismatch"
+    return version
+
 
 setup_args = dict(
     name=name,
-    version=version,
+    version=get_version(),
     url=pkg_json["homepage"],
     author=pkg_json["author"]["name"],
     author_email=pkg_json["author"]["email"],
