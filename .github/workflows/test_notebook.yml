@@ -32,4 +32,4 @@ jobs:
     - name: Install dependencies
       run: make devenv
     - name: Test
-      run: make testnotebook
+      run: make testnb
