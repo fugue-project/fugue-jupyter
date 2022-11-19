@@ -70,3 +70,7 @@ jobs:
         pip install jupyterlab
         jupyter labextension list 2>&1 | grep -ie "fugue-jupyter.*OK"
         python -m jupyterlab.browser_check --no-chrome-test
+    - name: Test Notebook
+      run: |
+        pip install pytest
+        make testnb

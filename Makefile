@@ -20,13 +20,17 @@ lab:
 	pip uninstall -y fugue-jupyter
 	jupyter labextension develop --overwrite .
 	jlpm run build
+	fugue-jupyter install startup
 	jupyter lab --port=8888 --ip=0.0.0.0 --no-browser --allow-root --NotebookApp.token='' --NotebookApp.password='' --NotebookApp.allow_origin='*'
 
 nb:
 	mkdir -p tmp
-	pip install .
-	jupyter nbextension install --sys-prefix --py fugue_jupyter
-	jupyter nbextension enable fugue_jupyter --py --system
+	pip uninstall -y fugue-jupyter
+	jupyter labextension develop --overwrite .
+	jlpm run build
+	jupyter nbextension uninstall --py fugue_jupyter
+	fugue-jupyter install nbextension
+	fugue-jupyter install startup
 	jupyter notebook --port=8888 --ip=0.0.0.0 --no-browser --allow-root --NotebookApp.token='' --NotebookApp.password='' --NotebookApp.allow_origin='*'
 
 docs:
@@ -47,3 +51,7 @@ package:
 
 test:
 	python3 -bb -m pytest tests/
+
+testnb:
+	fugue-jupyter install startup
+	jupyter nbconvert --execute --clear-output tests/fugue_jupyter/test_notebook.ipynb

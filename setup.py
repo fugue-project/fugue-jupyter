@@ -53,7 +53,7 @@ setup_args = dict(
     long_description_content_type="text/markdown",
     packages=setuptools.find_packages(),
     install_requires=[
-        "fugue>=0.6.6,<0.8",
+        "fugue>=0.8.0.dev1",
         "notebook",
         "jupyterlab>=3.0",
         "jupyterlab-lsp",
@@ -80,6 +80,7 @@ setup_args = dict(
     ],
     entry_points={
         "console_scripts": ["fugue-jupyter = fugue_jupyter.cmd:main"],
+        "fugue.plugins": ["jupyter = fugue_jupyter.display"],
     },
 )
 

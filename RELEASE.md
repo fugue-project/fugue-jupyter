@@ -1,5 +1,9 @@
 # Release Notes
 
+## 0.2.0
+
+* Redesigned Fugue DataFrame rendering
+
 ## 0.1.7
 
 * The last version supporting Fugue < 0.8
