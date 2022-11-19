@@ -53,8 +53,5 @@ test:
 	python3 -bb -m pytest tests/
 
 testnb:
-	jupyter nbextension uninstall --py fugue_jupyter || true
-	pip install .
-	fugue-jupyter install nbextension
 	fugue-jupyter install startup
 	jupyter nbconvert --execute --clear-output tests/fugue_jupyter/test_notebook.ipynb
