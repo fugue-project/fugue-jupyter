@@ -20,6 +20,7 @@ lab:
 	pip uninstall -y fugue-jupyter
 	jupyter labextension develop --overwrite .
 	jlpm run build
+	fugue-jupyter install startup
 	jupyter lab --port=8888 --ip=0.0.0.0 --no-browser --allow-root --NotebookApp.token='' --NotebookApp.password='' --NotebookApp.allow_origin='*'
 
 nb:

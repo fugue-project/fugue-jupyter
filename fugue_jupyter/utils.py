@@ -1,18 +1,15 @@
 # pylint: disable=W0611,W0613
-import html
 import json
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Dict, Optional
 
-import fugue_sql
-import pandas as pd
+import fugue
 from fugue import ExecutionEngine, make_execution_engine
 from fugue.dataframe import YieldedDataFrame
-from fugue.extensions._builtins.outputters import Show
-from fugue_sql.exceptions import FugueSQLSyntaxError
+from fugue.exceptions import FugueSQLSyntaxError
 from IPython import get_ipython
 from IPython.core.magic import Magics, cell_magic, magics_class, needs_local_scope
-from IPython.display import HTML, Javascript, display
-from triad import ParamDict, Schema
+from IPython.display import Javascript, display
+from triad import ParamDict
 
 from ._constants import _HIGHLIGHT_JS
 
@@ -39,7 +36,6 @@ def setup(
         fsql_ignore_case=fsql_ignore_case,
     )
     ip.register_magics(magics)
-    Show.set_hook(s.get_pretty_print())
 
     if run_js:
         display(Javascript(_HIGHLIGHT_JS))
@@ -58,10 +54,6 @@ class NotebookSetup(object):
         must match this dict, otherwise, exceptions will be thrown
         """
         return {}
-
-    def get_pretty_print(self) -> Callable:
-        """Fugue dataframe pretty print handler"""
-        return _default_pretty_print
 
 
 @magics_class
@@ -84,7 +76,7 @@ class _FugueSQLMagics(Magics):
     @cell_magic("fsql")
     def fsql(self, line: str, cell: str, local_ns: Any = None) -> None:
         try:
-            dag = fugue_sql.fsql(
+            dag = fugue.fsql(
                 "\n" + cell, local_ns, fsql_ignore_case=self._fsql_ignore_case
             )
         except FugueSQLSyntaxError as ex:
@@ -117,21 +109,3 @@ class _FugueSQLMagics(Magics):
         if "+" in engine:
             return make_execution_engine(tuple(engine.split("+", 1)), cf)
         return make_execution_engine(engine, cf)
-
-
-def _default_pretty_print(
-    schema: Schema,
-    head_rows: List[List[Any]],
-    title: Any,
-    rows: int,
-    count: int,
-):
-    components: List[Any] = []
-    if title is not None:
-        components.append(HTML(f"<h3>{html.escape(title)}</h3>"))
-    pdf = pd.DataFrame(head_rows, columns=list(schema.names))
-    components.append(pdf)
-    if count >= 0:
-        components.append(HTML(f"<strong>total count: {count}</strong>"))
-    components.append(HTML(f"<small>schema: {schema}</small>"))
-    display(*components)
