@@ -1,5 +1,9 @@
 # Release Notes
 
+## 0.2.1
+
+* Upgrade to Fugue 0.8.0
+
 ## 0.2.0
 
 * Redesigned Fugue DataFrame rendering
