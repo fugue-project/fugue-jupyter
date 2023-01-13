@@ -63,7 +63,7 @@ setup_args = dict(
     long_description_content_type="text/markdown",
     packages=setuptools.find_packages(),
     install_requires=[
-        "fugue>=0.8.0.dev1",
+        "fugue>=0.8.0",
         "notebook",
         "jupyterlab>=3.0",
         "jupyterlab-lsp",

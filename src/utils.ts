@@ -12,7 +12,7 @@ function end(language: string) {
   return `--end-${language}`;
 }
 function fsql_start() {
-  return `fsql[\\s\\S]*\\([\\s\\S]*\\"\\"\\"`;
+  return `(fsql|fugue_sql|fugue_sql_flow)[\\s\\S]*\\([\\s\\S]*\\"\\"\\"`;
 }
 function fsql_end() {
   return `\\"\\"\\"`;
