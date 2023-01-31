@@ -19,9 +19,11 @@ jobs:
     - name: Set up Nodejs 14
       uses: actions/setup-node@v2
       with:
-        node-version: '15.x'
+        node-version: '14.x'
     - name: Base Setup
       uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
+      with:
+          python_version: "3.8"
     - name: Install dependencies
       run: make devenv
     - name: Build the extension
@@ -59,7 +61,7 @@ jobs:
     - name: Set up Nodejs 14
       uses: actions/setup-node@v2
       with:
-        node-version: '15.x'
+        node-version: '14.x'
     - uses: actions/download-artifact@v2
       with:
         name: myextension-sdist
