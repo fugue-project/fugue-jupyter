@@ -91,7 +91,7 @@ function set(str: string) {
 }
 
 const fugue_keywords =
-  'system bernoulli reservoir approx fill hash rand even presort persist broadcast params process output outtransform rowcount concurrency prepartition zip print title save append parquet csv json single checkpoint weak strong deterministic yield connect sample seed take sub callback dataframe file';
+  'system bernoulli reservoir approx fill hash rand even coarse presort persist broadcast params process output outtransform rowcount concurrency prepartition zip print title save append parquet csv json single checkpoint weak strong deterministic yield connect sample seed take sub callback dataframe file';
 
 /**
  * Register text editor based on file type.
