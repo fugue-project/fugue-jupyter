@@ -25,5 +25,3 @@ cookiecutter
 bleach>5.0.0
 
 check-manifest
-
-duckdb
