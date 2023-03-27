@@ -66,7 +66,7 @@ setup_args = dict(
         "fugue>=0.8.0",
         "notebook",
         "jupyterlab>=3.0",
-        "jupyterlab-lsp",
+        "jupyterlab-lsp<4",
         "ipython>=7.10.0",
     ],
     zip_safe=False,
