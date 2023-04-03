@@ -20,7 +20,7 @@ twine
 
 jupyterlab
 jupyter-packaging
-jupyterlab-lsp
+jupyterlab-lsp<4
 cookiecutter
 bleach>5.0.0
 

@@ -1,5 +1,9 @@
 # Release Notes
 
+## 0.2.3
+
+* Add version cap for jupyter-lsp
+
 ## 0.2.1
 
 * Upgrade to Fugue 0.8.0
