@@ -1,9 +1,10 @@
 # pylint: disable=W0611,W0613
 import json
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, List
 
 import fugue
-from fugue import ExecutionEngine, make_execution_engine
+import fugue.api as fa
+from fugue import DataFrame, ExecutionEngine, make_execution_engine
 from fugue.dataframe import YieldedDataFrame
 from fugue.exceptions import FugueSQLSyntaxError
 from IPython import get_ipython
@@ -11,7 +12,8 @@ from IPython.core.magic import Magics, cell_magic, magics_class, needs_local_sco
 from IPython.display import Javascript, display
 from triad import ParamDict
 
-from ._constants import _HIGHLIGHT_JS
+from ._constants import _HIGHLIGHT_JS, _OPENAI_FNL_REQUEST_TEMPLATE
+from ipylab import JupyterFrontEnd
 
 
 def setup(
@@ -87,6 +89,51 @@ class _FugueSQLMagics(Magics):
                 local_ns[k] = v.result  # type: ignore
             else:
                 local_ns[k] = v  # type: ignore
+
+    @needs_local_scope
+    @cell_magic("fnl")
+    def fnl(self, line: str, cell: str, local_ns: Any = None) -> None:
+        import openai
+
+        instruction = cell.strip()
+        tables: List[str] = []
+        for k, v in local_ns.items():  # type: ignore
+            if isinstance(v, (YieldedDataFrame, DataFrame)) or fa.is_df(v):
+                schema = fa.get_schema(v)
+                names = ",".join(schema.names)
+                tables.append(f"# {k}({names})")
+        request = _OPENAI_FNL_REQUEST_TEMPLATE.format(
+            tables="\n".join(tables), instruction=instruction
+        )
+
+        openai.api_key = "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"
+
+        response = openai.Completion.create(
+            model="text-davinci-003",
+            prompt=request,
+            temperature=0,
+            max_tokens=300,
+            top_p=1.0,
+            frequency_penalty=0.0,
+            presence_penalty=0.0,
+            stop=["#", ";"],
+        )
+        sql = "SELECT\n" + response.choices[0].text
+        engine = line.strip()
+        cell = f"%%fsql {engine}\n-- {instruction}\n{sql}\n\nPRINT"
+        self.add_cell(cell)
+
+    def add_cell(self, text: str) -> None:
+        shell = get_ipython()
+
+        payload = dict(
+            source="set_next_input",
+            text=text,
+            replace=False,
+        )
+        shell.payload_manager.write_payload(payload, single=False)
+        app = JupyterFrontEnd()
+        app.commands.execute("notebook:run-cell-above")
 
     def get_engine(self, line: str, lc: Dict[str, Any]) -> ExecutionEngine:
         line = line.strip()

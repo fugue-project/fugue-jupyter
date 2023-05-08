@@ -69,6 +69,7 @@ setup_args = dict(
         "jupyterlab-lsp<4",
         "ipython>=7.10.0",
     ],
+    extras_require={"nl": ["openai"]},
     zip_safe=False,
     include_package_data=True,
     python_requires=">=3.7",
