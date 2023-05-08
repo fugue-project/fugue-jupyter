@@ -30,3 +30,12 @@ require(['notebook/js/codecell'], function(codecell) {
     });
   });
 """
+
+
+_OPENAI_FNL_REQUEST_TEMPLATE = """### Postgres SQL tables with properties:
+#
+{tables}
+#
+### {instruction} (Use wildcard if possible)
+SELECT
+"""
